@@ -8,14 +8,13 @@ const SimpleForm = () => {
   };
   return (
     <div>
-      <button onClick={clickOnMe}>Click me</button>
+      <button data-testid="countbutton" onClick={clickOnMe}>Click me</button>
       <span data-testid="count">{count}</span>
 
-      {/*  nom, prénom, mail, date de naissance, ville, code postal et un bouton de sauvegarde.
-*/}
+    
 
 
-      <form  className="form">
+      <form data-testid="form" className="form">
         <div className="formGroup">
           <label htmlFor="Lastname" className="label">Enter your Last name: </label>
           <input type="text" name="Lastname" id="Lastname" required class="input" />
@@ -40,8 +39,6 @@ const SimpleForm = () => {
           <label htmlFor="postalCode" className="label">Enter your postal code: </label>
           <input type="city" name="postalCode" id="postalCode" required class="input" />
         </div>
-
-
         <div className="formGroup">
           <input type="submit" value="Save" class="button" />
         </div>
