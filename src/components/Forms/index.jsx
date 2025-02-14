@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './form.css';
 
 const SimpleForm = () => {
   let [count, setCount] = useState(0);
@@ -9,6 +10,42 @@ const SimpleForm = () => {
     <div>
       <button onClick={clickOnMe}>Click me</button>
       <span data-testid="count">{count}</span>
+
+      {/*  nom, prénom, mail, date de naissance, ville, code postal et un bouton de sauvegarde.
+*/}
+
+
+      <form  className="form">
+        <div className="formGroup">
+          <label htmlFor="Lastname" className="label">Enter your Last name: </label>
+          <input type="text" name="Lastname" id="Lastname" required class="input" />
+        </div>
+        <div className="formGroup">
+          <label htmlFor="name" className="label">Enter your First name: </label>
+          <input type="text" name="Firstname" id="name" required class="input" />
+        </div>
+        <div className="formGroup">
+          <label htmlFor="email" className="label">Enter your email: </label>
+          <input type="email" name="email" id="email" required class="input" />
+        </div>
+        <div className="formGroup">
+          <label htmlFor="date" className="label">Enter your date of birth: </label>
+          <input type="date" name="date" id="date" required class="input" />
+        </div>
+        <div className="formGroup">
+          <label htmlFor="city" className="label">Enter your City: </label>
+          <input type="city" name="city" id="city" required class="input" />
+        </div>
+        <div className="formGroup">
+          <label htmlFor="postalCode" className="label">Enter your postal code: </label>
+          <input type="city" name="postalCode" id="postalCode" required class="input" />
+        </div>
+
+
+        <div className="formGroup">
+          <input type="submit" value="Save" class="button" />
+        </div>
+      </form>
     </div>
   );
 };
