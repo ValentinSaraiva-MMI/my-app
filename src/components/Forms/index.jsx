@@ -36,7 +36,7 @@ const SimpleForm = () => {
           <input type="city" name="city" id="city" required class="input" />
         </div>
         <div className="formGroup">
-          <label htmlFor="postalCode" className="label">Enter your postal code  : </label>
+          <label htmlFor="postalCode" className="label">Enter your postal code  POUNIMI: </label>
           <input type="city" name="postalCode" id="postalCode" required class="input" />
         </div>
         <div className="formGroup">
