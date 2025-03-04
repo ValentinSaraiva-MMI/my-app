@@ -2,6 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+    "homepage": "https://valentinsaraiva-mmi.github.io/my-app/",
   "dependencies": {
     "cra-template": "1.2.0",
     "react": "^19.0.0",
@@ -14,7 +15,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --collectCoverageFrom=src/**/*js[x] --collectCoverageFrom=!src/reportWebVitals.js --collectCoverageFrom=!src/index.js",
     "eject": "react-scripts eject",
- "jsdoc": "jsdoc -c ./jsdoc.config.json -r -d ./docs"  },
+    "predeploy" : "npm run build",
+"deploy" : "gh-pages -d build",
+    "jsdoc": "jsdoc -c ./jsdoc.config.json -r -d ./docs"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -36,6 +40,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "gh-pages": "^6.3.0",
     "jsdoc": "^4.0.4",
     "react-test-renderer": "^19.0.0"
   }
