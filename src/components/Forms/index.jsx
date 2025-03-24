@@ -32,11 +32,11 @@ const SimpleForm = () => {
           <input type="date" name="date" id="date" required class="input" />
         </div>
         <div className="formGroup">
-          <label htmlFor="city" className="label">Enter your City : </label>
+          <label htmlFor="city" className="label">Enter your City: </label>
           <input type="city" name="city" id="city" required class="input" />
         </div>
         <div className="formGroup">
-          <label htmlFor="postalCode" className="label">Enter your postal code  POUNIMI: </label>
+          <label htmlFor="postalCode" className="label">Enter your postal code: </label>
           <input type="city" name="postalCode" id="postalCode" required class="input" />
         </div>
         <div className="formGroup">
