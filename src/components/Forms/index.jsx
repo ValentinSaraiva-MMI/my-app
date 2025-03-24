@@ -32,7 +32,7 @@ const SimpleForm = () => {
           <input type="date" name="date" id="date" required class="input" />
         </div>
         <div className="formGroup">
-          <label htmlFor="city" className="label">Enter your City: </label>
+          <label htmlFor="city" className="label">Enter your City : </label>
           <input type="city" name="city" id="city" required class="input" />
         </div>
         <div className="formGroup">
