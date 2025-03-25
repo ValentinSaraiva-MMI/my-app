@@ -42,6 +42,9 @@ jobs:
       - name: test
         run: npm test
 
+      - name: Auth with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{secrets.CICD_TOKEN}}" > ~/.npmrc
+
       - name: build and publish package on NPM
         if: env.NEW_VERSION == 'true'
         run: |
