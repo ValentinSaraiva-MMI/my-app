@@ -50,7 +50,7 @@ jobs:
           npm run build-npm-ci
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.ci-cd-ynov }}
+          NODE_AUTH_TOKEN: ${{ secrets.CICD_TOKEN }}
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
