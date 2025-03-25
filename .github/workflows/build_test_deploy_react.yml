@@ -48,7 +48,6 @@ jobs:
           git config --global user.email "valentin.saraiva@gmail.com"
           git config --global user.name "Valentin Saraiva"
           npm run build-npm-ci
-          npm version patch
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
