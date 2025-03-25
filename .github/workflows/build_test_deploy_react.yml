@@ -32,7 +32,7 @@ jobs:
       - name: check version
         run: |
           LOCAL_VERSION=$(node -p "require('./package.json').version")
-          NPM_VERSION=$(npm view valentin-app version || echo "0.0.0")
+          NPM_VERSION=$(npm view my-app-val-ynov version || echo "0.0.0")
             if [ "$LOCAL_VERSION" != "$NPM_VERSION" ]; then
               echo "NEW_VERSION=true" >> $GITHUB_ENV
             else
