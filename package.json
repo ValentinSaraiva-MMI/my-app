@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
+  "name": "my-app-val-ynov",
   "version": "0.1.0",
-  "private": true,
-    "homepage": "https://valentinsaraiva-mmi.github.io/my-app/",
+  "private": false,
+  "homepage": "https://valentinsaraiva-mmi.github.io/my-app/",
   "dependencies": {
     "cra-template": "1.2.0",
     "react": "^19.0.0",
@@ -15,9 +15,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage  --collectCoverageFrom=src/**/*js[x] --collectCoverageFrom=!src/reportWebVitals.js --collectCoverageFrom=!src/index.js --watchAll=false",
     "eject": "react-scripts eject",
-    "predeploy" : "npm run build",
-"deploy" : "gh-pages -d build",
-"jsdoc": "jsdoc -R ./README.md -c ./jsdoc.config.json -r -d ./public/docs"  },
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "jsdoc": "jsdoc -R ./README.md -c ./jsdoc.config.json -r -d ./public/docs",
+    "build-npm-ci": "NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src --out-dir dist --copy-files",
+    "build-npm": "SET NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src --out-dir dist --copy-files"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -37,6 +40,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "gh-pages": "^6.3.0",

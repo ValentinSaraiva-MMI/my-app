@@ -28,8 +28,31 @@ jobs:
         run: |
           npm run jsdoc
           npm run build --if-present
+
+      - name: check version
+        run: |
+          LOCAL_VERSION=$(node -p "require('./package.json').version")
+          NPM_VERSION=$(npm view valentin-app version || echo "0.0.0")
+            if [ "$LOCAL_VERSION" != "$NPM_VERSION" ]; then
+              echo "NEW_VERSION=true" >> $GITHUB_ENV
+            else
+              echo "NEW_VERSION=false" >> $GITHUB_ENV
+            fi
+
       - name: test
         run: npm test
+
+      - name: build and publish package on NPM
+        if: env.NEW_VERSION == 'true'
+        run: |
+          git config --global user.email "valentin.saraiva@gmail.com"
+          git config --global user.name "Valentin Saraiva"
+          npm run build-npm
+          npm version patch
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
