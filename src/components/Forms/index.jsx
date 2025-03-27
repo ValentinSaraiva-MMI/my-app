@@ -2,8 +2,7 @@
   import './form.css';
 
   const SimpleForm = () => {
-  let [count, setCount] = useState(0);
-  let [birthDate, setBirthDate] = useState("");
+   let [birthDate, setBirthDate] = useState("");
   let [error, setError] = useState("");
   let [nameError, setNameError] = useState("");
   let [lastnameError, setLastnameError] = useState("");
