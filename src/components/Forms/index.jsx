@@ -8,6 +8,31 @@ const SimpleForm = () => {
   let [lastnameError, setLastnameError] = useState("");
   let [postalCodeError, setPostalCodeError] = useState("");
   let [emailError, setEmailError] = useState("");
+  let [cityError, setCityError] = useState("");
+
+  const validateCity = async (event) => {
+    const cityName = event.target.value.trim();
+
+    if (cityName.length < 2) {
+      setCityError("Veuillez entrer une ville valide.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://geo.api.gouv.fr/communes?nom=${cityName}&fields=nom&limit=1`
+      );
+      const data = await response.json();
+
+      if (data.length === 0) {
+        setCityError("Cette ville n'existe pas en France.");
+      } else {
+        setCityError("");
+      }
+    } catch (error) {
+      setCityError("Erreur de validation de la ville.");
+    }
+  };
 
   // Expression régulière pour valider le code postal (5 chiffres uniquement)
   const postalCodeRegex = /^\d{5}$/;
@@ -140,11 +165,20 @@ const SimpleForm = () => {
           />
           {error && <p className="error">{error}</p>}
         </div>
+
         <div className="formGroup">
           <label htmlFor="city" className="label">
             Enter your City:{" "}
           </label>
-          <input type="city" name="city" id="city" required className="input" />
+          <input
+            type="text"
+            name="city"
+            id="city"
+            required
+            className="input"
+            onBlur={validateCity}
+          />
+          {cityError && <p className="error">{cityError}</p>}
         </div>
 
         <div className="formGroup">
