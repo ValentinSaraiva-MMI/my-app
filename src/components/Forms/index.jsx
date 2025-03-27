@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./form.css";
+import JSConfetti from 'js-confetti'
 
 const SimpleForm = () => {
   let [birthDate, setBirthDate] = useState("");
@@ -105,6 +106,12 @@ const SimpleForm = () => {
     }
   };
 
+const confetti = new JSConfetti()
+
+function showConfetti() {
+  confetti.addConfetti()
+}
+
   return (
     <div>
       <form data-testid="form" className="form">
@@ -197,7 +204,7 @@ const SimpleForm = () => {
         </div>
 
         <div className="formGroup">
-          <input type="submit" value="Save" className="button" />
+          <input  type="submit" value="Save" className="button" onClick={showConfetti}/>
         </div>
       </form>
     </div>
