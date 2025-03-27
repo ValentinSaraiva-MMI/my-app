@@ -80,3 +80,32 @@ test("validates email field", () => {
     screen.getByText(/Veuillez entrer une adresse email valide./i)
   ).toBeInTheDocument();
 });
+
+test("validates postal code field", () => {
+  render(<App />);
+  const postalCodeInput = screen.getByLabelText(/Enter your postal code:/i);
+
+  // Code postal valide
+  fireEvent.change(postalCodeInput, { target: { value: "75001" } });
+  expect(
+    screen.queryByText(/Le code postal doit être composé de 5 chiffres./i)
+  ).not.toBeInTheDocument();
+
+  // Code postal invalide (moins de 5 chiffres)
+  fireEvent.change(postalCodeInput, { target: { value: "1234" } });
+  expect(
+    screen.getByText(/Le code postal doit être composé de 5 chiffres./i)
+  ).toBeInTheDocument();
+
+  // Code postal invalide (plus de 5 chiffres)
+  fireEvent.change(postalCodeInput, { target: { value: "123456" } });
+  expect(
+    screen.getByText(/Le code postal doit être composé de 5 chiffres./i)
+  ).toBeInTheDocument();
+
+  // Code postal invalide (lettres)
+  fireEvent.change(postalCodeInput, { target: { value: "ABCDE" } });
+  expect(
+    screen.getByText(/Le code postal doit être composé de 5 chiffres./i)
+  ).toBeInTheDocument();
+});
