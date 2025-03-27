@@ -5,10 +5,10 @@
   let [count, setCount] = useState(0);
   let [birthDate, setBirthDate] = useState("");
   let [error, setError] = useState("");
+  let [nameError, setNameError] = useState("");
+  let [lastnameError, setLastnameError] = useState("");
+  // let [blockbtn, setBlockbtn] = useState(true);
 
-    const clickOnMe = () => {
-      setCount(count + 1);
-    };
 
   // Calcule la date limite pour les 18 ans
   const today = new Date();
@@ -20,26 +20,60 @@
 
     if (selectedDate > minDate) {
       setError("Vous devez avoir au moins 18 ans.");
+      // setBlockbtn(true);
     } else {
       setError("");
+      // setBlockbtn(false);
+    }
+  };
+
+  // Expression régulière pour valider les noms et prénoms
+  const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ-]+$/;
+
+   const validateLastname = (event) => {
+    const value = event.target.value;
+    if (!nameRegex.test(value)) {
+      setLastnameError("Le nom ne doit contenir que des lettres, accents ou tirets.");
+    } else {
+      setLastnameError("");
+    }
+  };
+
+  const validateFirstname = (event) => {
+    const value = event.target.value;
+    if (!nameRegex.test(value)) {
+      setNameError("Le prénom ne doit contenir que des lettres, accents ou tirets.");
+    } else {
+      setNameError("");
     }
   };
 
     return (
       <div>
-        <button data-testid="countbutton" onClick={clickOnMe}>Click me</button>
-        <span data-testid="count">{count}</span>
-
-      
-
         <form data-testid="form" className="form">
           <div className="formGroup">
-            <label htmlFor="Lastname" className="label">Enter your Last name: </label>
-            <input type="text" name="Lastname" id="Lastname" required className="input" />
-          </div>
-          <div className="formGroup">
-            <label htmlFor="name" className="label">Enter your First name: </label>
-            <input type="text" name="Firstname" id="name" required className="input" />
+          <label htmlFor="Lastname" className="label">Enter your Last name: </label>
+          <input 
+            type="text" 
+            name="Lastname" 
+            id="Lastname" 
+            required 
+            className="input"
+            onChange={validateLastname}
+          />
+          {lastnameError && <p className="error">{lastnameError}</p>}
+        </div>
+        <div className="formGroup">
+          <label htmlFor="name" className="label">Enter your First name: </label>
+          <input 
+            type="text" 
+            name="Firstname" 
+            id="name" 
+            required 
+            className="input"
+            onChange={validateFirstname}
+          />
+          {nameError && <p className="error">{nameError}</p>}
           </div>
           <div className="formGroup">
             <label htmlFor="email" className="label">Enter your email: </label>
@@ -67,7 +101,7 @@
             <input type="city" name="postalCode" id="postalCode" required className="input" />
           </div>
           <div className="formGroup">
-            <input type="submit" value="Save" className="button" />
+            <input type="submit" value="Save" className="button"  />
           </div>
         </form>
       </div>
