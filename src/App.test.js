@@ -63,3 +63,20 @@ test("validates first name field", () => {
     )
   ).toBeInTheDocument();
 });
+
+test("validates email field", () => {
+  render(<App />);
+  const emailInput = screen.getByLabelText(/Enter your email:/i);
+
+  // Email valide
+  fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+  expect(
+    screen.queryByText(/Veuillez entrer une adresse email valide./i)
+  ).not.toBeInTheDocument();
+
+  // Email invalide
+  fireEvent.change(emailInput, { target: { value: "invalid-email" } });
+  expect(
+    screen.getByText(/Veuillez entrer une adresse email valide./i)
+  ).toBeInTheDocument();
+});

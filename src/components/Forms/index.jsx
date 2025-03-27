@@ -6,7 +6,6 @@
   let [error, setError] = useState("");
   let [nameError, setNameError] = useState("");
   let [lastnameError, setLastnameError] = useState("");
-  // let [blockbtn, setBlockbtn] = useState(true);
 
 
   // Calcule la date limite pour les 18 ans
@@ -28,6 +27,8 @@
 
   // Expression régulière pour valider les noms et prénoms
   const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ-]+$/;
+  // Expression régulière pour valider les emails
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
    const validateLastname = (event) => {
     const value = event.target.value;
@@ -46,6 +47,20 @@
       setNameError("");
     }
   };
+
+  const [emailError, setEmailError] = useState("");
+
+
+
+const validateEmail = (event) => {
+  const value = event.target.value;
+  if (!emailRegex.test(value)) {
+    setEmailError("Veuillez entrer une adresse email valide.");
+  } else {
+    setEmailError("");
+  }
+};
+
 
     return (
       <div>
@@ -74,10 +89,18 @@
           />
           {nameError && <p className="error">{nameError}</p>}
           </div>
-          <div className="formGroup">
-            <label htmlFor="email" className="label">Enter your email: </label>
-            <input type="email" name="email" id="email" required className="input" />
-          </div>
+        <div className="formGroup">
+  <label htmlFor="email" className="label">Enter your email: </label>
+  <input 
+    type="email" 
+    name="email" 
+    id="email" 
+    required 
+    className="input" 
+    onChange={validateEmail}
+  />
+  {emailError && <p className="error">{emailError}</p>}
+</div>
           <div className="formGroup">
             <label htmlFor="date" className="label">Enter your date of birth: </label>
            <input 
