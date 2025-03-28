@@ -3,10 +3,6 @@ import "./form.css";
 import JSConfetti from 'js-confetti'
 
 
-/**
- * Composant de formulaire simple avec validation des champs.
- * @component
- */
 const SimpleForm = () => {
   let [birthDate, setBirthDate] = useState("");
    let [error, setError] = useState("");
@@ -17,11 +13,7 @@ const SimpleForm = () => {
    let [cityError, setCityError] = useState("");
 
 
-   /**
-   * Valide le champ de la ville en vérifiant si la ville existe en France.
-   * @async
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement du champ de la ville.
-   */
+  
   const validateCity = async (event) => {
     const cityName = event.target.value.trim();
 
@@ -60,10 +52,7 @@ const SimpleForm = () => {
     .split("T")[0];
 
 
-    /**
-   * Gère le changement de la date de naissance et vérifie si l'utilisateur a au moins 18 ans.
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement du champ de date.
-   */
+ 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
     setBirthDate(selectedDate);
@@ -83,10 +72,7 @@ const SimpleForm = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
-   /**
-   * Valide le champ du nom de famille.
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement du champ du nom de famille.
-   */
+ 
   const validateLastname = (event) => {
     const value = event.target.value;
     if (!nameRegex.test(value)) {
@@ -98,10 +84,7 @@ const SimpleForm = () => {
     }
   };
 
-    /**
-   * Valide le champ du prénom.
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement du champ du prénom.
-   */
+ 
   const validateFirstname = (event) => {
     const value = event.target.value;
     if (!nameRegex.test(value)) {
@@ -113,10 +96,7 @@ const SimpleForm = () => {
     }
   };
 
-   /**
-   * Valide le champ du code postal.
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement du champ du code postal.
-   */
+
   const validatePostalCode = (event) => {
     const value = event.target.value;
     if (!postalCodeRegex.test(value)) {
@@ -126,10 +106,6 @@ const SimpleForm = () => {
     }
   };
 
-    /**
-   * Valide le champ de l'email.
-   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement du champ de l'email.
-   */
   const validateEmail = (event) => {
     const value = event.target.value;
     if (!emailRegex.test(value)) {
