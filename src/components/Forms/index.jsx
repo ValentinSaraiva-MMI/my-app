@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./form.css";
-import JSConfetti from 'js-confetti'
-
+import JSConfetti from "js-confetti";
 
 const SimpleForm = () => {
   let [birthDate, setBirthDate] = useState("");
-   let [error, setError] = useState("");
-   let [nameError, setNameError] = useState("");
-   let [lastnameError, setLastnameError] = useState("");
-   let [postalCodeError, setPostalCodeError] = useState("");
-   let [emailError, setEmailError] = useState("");
-   let [cityError, setCityError] = useState("");
+  let [error, setError] = useState("");
+  let [nameError, setNameError] = useState("");
+  let [lastnameError, setLastnameError] = useState("");
+  let [postalCodeError, setPostalCodeError] = useState("");
+  let [emailError, setEmailError] = useState("");
+  let [cityError, setCityError] = useState("");
+  let [isFormValid, setIsFormValid] = useState(false);
 
+ useEffect(() => {
+    setIsFormValid(
+      birthDate &&
+      !error &&
+      !nameError &&
+      !lastnameError &&
+      !emailError &&
+      !postalCodeError &&
+      !cityError
+    );
+  }, [birthDate, error, nameError, lastnameError, emailError, postalCodeError, cityError]);
 
-  
   const validateCity = async (event) => {
     const cityName = event.target.value.trim();
 
@@ -51,19 +61,16 @@ const SimpleForm = () => {
     .toISOString()
     .split("T")[0];
 
-
- 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
     setBirthDate(selectedDate);
 
     if (selectedDate > minDate) {
       setError("Vous devez avoir au moins 18 ans.");
-      // setBlockbtn(true);
-    } else {
+     } else {
       setError("");
-      // setBlockbtn(false);
-    }
+     }
+    ;
   };
 
   // Expression régulière pour valider les noms et prénoms
@@ -71,8 +78,6 @@ const SimpleForm = () => {
   // Expression régulière pour valider les emails
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-
- 
   const validateLastname = (event) => {
     const value = event.target.value;
     if (!nameRegex.test(value)) {
@@ -82,9 +87,9 @@ const SimpleForm = () => {
     } else {
       setLastnameError("");
     }
+  
   };
 
- 
   const validateFirstname = (event) => {
     const value = event.target.value;
     if (!nameRegex.test(value)) {
@@ -94,8 +99,8 @@ const SimpleForm = () => {
     } else {
       setNameError("");
     }
+    ;
   };
-
 
   const validatePostalCode = (event) => {
     const value = event.target.value;
@@ -104,6 +109,7 @@ const SimpleForm = () => {
     } else {
       setPostalCodeError("");
     }
+    ;
   };
 
   const validateEmail = (event) => {
@@ -113,13 +119,14 @@ const SimpleForm = () => {
     } else {
       setEmailError("");
     }
+    ;
   };
 
-const confetti = new JSConfetti()
+  const confetti = new JSConfetti();
 
-function showConfetti() {
-  confetti.addConfetti()
-}
+  function showConfetti() {
+    confetti.addConfetti();
+  }
 
   return (
     <div>
@@ -213,7 +220,13 @@ function showConfetti() {
         </div>
 
         <div className="formGroup">
-          <input  type="submit" value="Save" className="button" onClick={showConfetti}/>
+          <input
+            type="submit"
+            value="Save"
+            className={`button ${!isFormValid ? "disabled" : ""}`}
+            onClick={showConfetti}
+            disabled={!isFormValid}
+          />
         </div>
       </form>
     </div>

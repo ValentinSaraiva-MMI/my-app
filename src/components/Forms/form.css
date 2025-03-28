@@ -36,6 +36,12 @@
   cursor: pointer;
 }
 
+.button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 
 .error {
   color: red;

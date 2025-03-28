@@ -134,3 +134,53 @@ test("validates postal code field", () => {
     screen.getByText(/Le code postal doit être composé de 5 chiffres./i)
   ).toBeInTheDocument();
 });
+
+test("disables submit button when form is incorect", () => {
+  render(<App />);
+  const submitButton = screen.getByRole("button");
+
+  fireEvent.change(screen.getByLabelText(/Enter your First name:/i), {
+    target: { value: "Jean2" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your Last name:/i), {
+    target: { value: "Dupo1" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your date of birth:/i), {
+    target: { value: "2023-01-01" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your City:/i), {
+    target: { value: "Mordor" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your email:/i), {
+    target: { value: "test@example.com" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your postal code:/i), {
+    target: { value: "75001dd" },
+  });
+
+  // Vérifie que le bouton est désactivé au départ
+  expect(submitButton).toBeDisabled();
+
+  // Remplit correctement tous les champs requis
+  fireEvent.change(screen.getByLabelText(/Enter your First name:/i), {
+    target: { value: "Jean" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your Last name:/i), {
+    target: { value: "Dupont" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your date of birth:/i), {
+    target: { value: "2000-01-01" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your City:/i), {
+    target: { value: "Antibes" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your email:/i), {
+    target: { value: "test@example.com" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your postal code:/i), {
+    target: { value: "75001" },
+  });
+
+  // Vérifie que le bouton est activé
+  expect(submitButton).not.toBeDisabled();
+});
