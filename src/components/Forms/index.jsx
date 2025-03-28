@@ -2,15 +2,37 @@ import React, { useState } from "react";
 import "./form.css";
 import JSConfetti from 'js-confetti'
 
+/**
+ * Composant SimpleForm.
+ * 
+ * Ce composant affiche un formulaire avec plusieurs champs d'entrée (nom, prénom, email, etc.) et effectue des validations en temps réel.
+ * Lorsqu'une validation échoue, un message d'erreur correspondant est affiché.
+ * 
+ * @returns {JSX.Element} Le formulaire avec les champs d'entrée et les messages d'erreur associés.
+ */
 const SimpleForm = () => {
+    /** @type {string} État représentant la date de naissance de l'utilisateur. */
   let [birthDate, setBirthDate] = useState("");
+    /** @type {string} État représentant l'erreur liée à la validation de l'âge de l'utilisateur. */
   let [error, setError] = useState("");
+    /** @type {string} État représentant l'erreur liée à la validation du prénom. */
   let [nameError, setNameError] = useState("");
+    /** @type {string} État représentant l'erreur liée à la validation du nom de famille. */
   let [lastnameError, setLastnameError] = useState("");
+    /** @type {string} État représentant l'erreur liée à la validation du code postal. */
   let [postalCodeError, setPostalCodeError] = useState("");
+    /** @type {string} État représentant l'erreur liée à la validation de l'email. */
   let [emailError, setEmailError] = useState("");
+    /** @type {string} État représentant l'erreur liée à la validation de la ville. */
   let [cityError, setCityError] = useState("");
 
+
+    /**
+   * Valide la ville saisie par l'utilisateur.
+   * Vérifie si la ville existe en France en utilisant l'API de géolocalisation de la France.
+   * 
+   * @param {React.ChangeEvent<HTMLInputElement>} event L'événement déclenché par le changement de valeur de l'input.
+   */
   const validateCity = async (event) => {
     const cityName = event.target.value.trim();
 
@@ -48,6 +70,12 @@ const SimpleForm = () => {
     .toISOString()
     .split("T")[0];
 
+
+  /**
+   * Gère le changement de la date de naissance et valide si l'utilisateur a moins de 18 ans.
+   * 
+   * @param {React.ChangeEvent<HTMLInputElement>} event L'événement déclenché par le changement de valeur de l'input.
+   */
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
     setBirthDate(selectedDate);
@@ -66,6 +94,12 @@ const SimpleForm = () => {
   // Expression régulière pour valider les emails
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+
+   /**
+   * Valide le nom de famille saisi.
+   * 
+   * @param {React.ChangeEvent<HTMLInputElement>} event L'événement déclenché par le changement de valeur de l'input.
+   */
   const validateLastname = (event) => {
     const value = event.target.value;
     if (!nameRegex.test(value)) {

@@ -1,7 +1,10 @@
-import React from "react";
-import "./App.css";
-import SimpleForm from "./components/Forms/index"; 
-
+/**
+ * Composant principal de l'application.
+ * 
+ * Ce composant inclut le formulaire simple en affichant le composant `SimpleForm`.
+ * 
+ * @returns {JSX.Element} Le composant principal de l'application.
+ */
 function App() {
   return (
         <SimpleForm /> 
