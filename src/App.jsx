@@ -5,6 +5,9 @@
  * 
  * @returns {JSX.Element} Le composant principal de l'application.
  */
+import SimpleForm from './SimpleForm';
+
+
 function App() {
   return (
         <SimpleForm /> 
