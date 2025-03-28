@@ -59,6 +59,11 @@ Après avoir soumis le formulaire, vous pouvez vérifier si les données ont ét
 - **GitHub Actions** : Automatisation du build et des tests
 - **Jsoc** : Documentation du code
 
+## 🌐 Projet déployé
+
+Mon projet deployé via GitHub Actions :  
+[valentinsaraiva-mmi.github.io/my-app](https://valentinsaraiva-mmi.github.io/my-app)
+
 ## 📚 Documentation
 
 La documentation du projet est générée avec **JSDoc** et disponible à l'adresse suivante :  
