@@ -130,7 +130,7 @@ const SimpleForm = () => {
 
 
 const handleSubmit = (event) => {
-  event.preventDefault(); // Empêche le rechargement de la page
+  event.preventDefault();  
 
   // Récupération des données du formulaire
   const formData = {
@@ -143,8 +143,11 @@ const handleSubmit = (event) => {
   };
 
    localStorage.setItem("formData", JSON.stringify(formData));
-
    showConfetti();
+   
+setTimeout(() => {
+    window.location.reload();
+  }, 2000);  
 };
 
 
