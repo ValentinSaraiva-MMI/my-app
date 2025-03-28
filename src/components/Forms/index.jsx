@@ -128,9 +128,29 @@ const SimpleForm = () => {
     confetti.addConfetti();
   }
 
+
+const handleSubmit = (event) => {
+  event.preventDefault(); // Empêche le rechargement de la page
+
+  // Récupération des données du formulaire
+  const formData = {
+    lastname: document.getElementById("Lastname").value,
+    firstname: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    birthDate: birthDate,
+    city: document.getElementById("city").value,
+    postalCode: document.getElementById("postalCode").value,
+  };
+
+   localStorage.setItem("formData", JSON.stringify(formData));
+
+   showConfetti();
+};
+
+
   return (
     <div>
-      <form data-testid="form" className="form">
+      <form data-testid="form" className="form" onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="Lastname" className="label">
             Enter your Last name:{" "}
@@ -224,7 +244,6 @@ const SimpleForm = () => {
             type="submit"
             value="Save"
             className={`button ${!isFormValid ? "disabled" : ""}`}
-            onClick={showConfetti}
             disabled={!isFormValid}
           />
         </div>
