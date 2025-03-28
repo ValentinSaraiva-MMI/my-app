@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./form.css";
 import JSConfetti from "js-confetti";
+import Toaster from "../Toaster";
 
 const SimpleForm = () => {
   let [birthDate, setBirthDate] = useState("");
@@ -11,18 +12,31 @@ const SimpleForm = () => {
   let [emailError, setEmailError] = useState("");
   let [cityError, setCityError] = useState("");
   let [isFormValid, setIsFormValid] = useState(false);
+  const [toaster, setToaster] = useState({
+    message: "",
+    type: "",
+    visible: false,
+  });
 
- useEffect(() => {
+  useEffect(() => {
     setIsFormValid(
       birthDate &&
-      !error &&
-      !nameError &&
-      !lastnameError &&
-      !emailError &&
-      !postalCodeError &&
-      !cityError
+        !error &&
+        !nameError &&
+        !lastnameError &&
+        !emailError &&
+        !postalCodeError &&
+        !cityError
     );
-  }, [birthDate, error, nameError, lastnameError, emailError, postalCodeError, cityError]);
+  }, [
+    birthDate,
+    error,
+    nameError,
+    lastnameError,
+    emailError,
+    postalCodeError,
+    cityError,
+  ]);
 
   const validateCity = async (event) => {
     const cityName = event.target.value.trim();
@@ -67,10 +81,9 @@ const SimpleForm = () => {
 
     if (selectedDate > minDate) {
       setError("Vous devez avoir au moins 18 ans.");
-     } else {
+    } else {
       setError("");
-     }
-    ;
+    }
   };
 
   // Expression régulière pour valider les noms et prénoms
@@ -87,7 +100,6 @@ const SimpleForm = () => {
     } else {
       setLastnameError("");
     }
-  
   };
 
   const validateFirstname = (event) => {
@@ -99,7 +111,6 @@ const SimpleForm = () => {
     } else {
       setNameError("");
     }
-    ;
   };
 
   const validatePostalCode = (event) => {
@@ -109,7 +120,6 @@ const SimpleForm = () => {
     } else {
       setPostalCodeError("");
     }
-    ;
   };
 
   const validateEmail = (event) => {
@@ -119,7 +129,6 @@ const SimpleForm = () => {
     } else {
       setEmailError("");
     }
-    ;
   };
 
   const confetti = new JSConfetti();
@@ -128,31 +137,46 @@ const SimpleForm = () => {
     confetti.addConfetti();
   }
 
-
-const handleSubmit = (event) => {
-  event.preventDefault();  
-
-  // Récupération des données du formulaire
-  const formData = {
-    lastname: document.getElementById("Lastname").value,
-    firstname: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    birthDate: birthDate,
-    city: document.getElementById("city").value,
-    postalCode: document.getElementById("postalCode").value,
+  const showToaster = (message, type) => {
+    setToaster({ message, type, visible: true });
+    setTimeout(() => setToaster({ ...toaster, visible: false }), 3000);
   };
 
-   localStorage.setItem("formData", JSON.stringify(formData));
-   showConfetti();
-   
-setTimeout(() => {
-    window.location.reload();
-  }, 2000);  
-};
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
+    try {
+      // Récupération des données du forms
+      const formData = {
+        lastname: document.getElementById("Lastname").value,
+        firstname: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        birthDate: birthDate,
+        city: document.getElementById("city").value,
+        postalCode: document.getElementById("postalCode").value,
+      };
+
+      localStorage.setItem("formData", JSON.stringify(formData));
+      showConfetti();
+      showToaster("Form submitted successfully!", "success");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      showToaster("An error occurred while submitting the form.", "error");
+    }
+  };
 
   return (
     <div>
+      {toaster.visible && (
+        <Toaster
+          message={toaster.message}
+          type={toaster.type}
+          onClose={() => setToaster({ ...toaster, visible: false })}
+        />
+      )}
       <form data-testid="form" className="form" onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="Lastname" className="label">

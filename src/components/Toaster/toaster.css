@@ -1,0 +1,26 @@
+.toaster {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+ }
+
+.toaster.success {
+  background-color: #28a745;
+}
+
+.toaster.error {
+  background-color: #dc3545;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  margin-left: 10px;
+  cursor: pointer;
+}

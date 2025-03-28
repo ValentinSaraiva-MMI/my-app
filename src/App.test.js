@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
+import Toaster from "./components/Toaster";
 
 /**
  * Test suite for the Form component.
@@ -224,4 +225,22 @@ test("saves form data to localStorage on submit", () => {
   );
 
   localStorageSpy.mockRestore();
+});
+
+test("renders success toaster", () => {
+  const onClose = jest.fn();
+  render(<Toaster message="Success!" type="success" onClose={onClose} />);
+  expect(screen.getByText("Success!")).toBeInTheDocument();
+  expect(screen.getByText("Fermer")).toBeInTheDocument();
+  fireEvent.click(screen.getByText("Fermer"));
+  expect(onClose).toHaveBeenCalled();
+});
+
+test("renders error toaster", () => {
+  const onClose = jest.fn();
+  render(<Toaster message="Error!" type="error" onClose={onClose} />);
+  expect(screen.getByText("Error!")).toBeInTheDocument();
+  expect(screen.getByText("Fermer")).toBeInTheDocument();
+  fireEvent.click(screen.getByText("Fermer"));
+  expect(onClose).toHaveBeenCalled();
 });
