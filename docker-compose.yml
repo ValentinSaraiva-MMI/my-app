@@ -23,7 +23,7 @@ services:
     restart: on-failure
     image: python-api-2
     volumes:
-      - ./server:/server
+      - ./serveur:/serveur
     build:
       context: .
       dockerfile: serveur/Dockerfile 

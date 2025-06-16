@@ -1,8 +1,12 @@
 USE ynov_ci;
 
 CREATE TABLE users (
-    id INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    lastname VARCHAR(100) NOT NULL,
+    firstname VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
+    birthDate DATE NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    postalCode VARCHAR(10) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

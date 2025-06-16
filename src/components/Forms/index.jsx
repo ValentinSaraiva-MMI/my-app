@@ -142,11 +142,9 @@ const SimpleForm = () => {
     setTimeout(() => setToaster({ ...toaster, visible: false }), 3000);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      // Récupération des données du forms
       const formData = {
         lastname: document.getElementById("Lastname").value,
         firstname: document.getElementById("name").value,
@@ -156,13 +154,25 @@ const SimpleForm = () => {
         postalCode: document.getElementById("postalCode").value,
       };
 
-      localStorage.setItem("formData", JSON.stringify(formData));
-      showConfetti();
-      showToaster("Form submitted successfully!", "success");
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // Appel API pour ajouter l'utilisateur
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        showConfetti();
+        showToaster("User added to database!", "success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        showToaster(
+          result.error || "An error occurred while submitting the form.",
+          "error"
+        );
+      }
     } catch (error) {
       showToaster("An error occurred while submitting the form.", "error");
     }
