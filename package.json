@@ -20,7 +20,8 @@
     "deploy": "gh-pages -d build",
     "jsdoc": "jsdoc -R ./README.md -c ./jsdoc.config.json -r -d ./public/docs",
     "build-npm-ci": "NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src --out-dir dist --copy-files",
-    "build-npm": "SET NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src --out-dir dist --copy-files"
+    "build-npm": "SET NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src --out-dir dist --copy-files",
+    "cypress": "cypress open" 
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,7 @@
     "@babel/plugin-transform-react-jsx": "^7.25.9",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "cypress": "^14.4.1",
     "gh-pages": "^6.3.0",
     "jsdoc": "^4.0.4",
     "react-test-renderer": "^19.0.0"
