@@ -38,6 +38,11 @@ const SimpleForm = () => {
     cityError,
   ]);
 
+  const [nbrUser, setNbrUser] = useState(0);
+
+  
+   
+
   const validateCity = async (event) => {
     const cityName = event.target.value.trim();
 
@@ -188,6 +193,8 @@ const SimpleForm = () => {
         />
       )}
       <form data-testid="form" className="form" onSubmit={handleSubmit}>
+
+      <h2>Number of user {nbrUser} </h2>
         <div className="formGroup">
           <label htmlFor="Lastname" className="label">
             Enter your Last name:{" "}
