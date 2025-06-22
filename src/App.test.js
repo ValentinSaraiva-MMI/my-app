@@ -187,6 +187,13 @@ test("disables submit button when form is incorect", () => {
 });
 
 test("saves form data to localStorage on submit", () => {
+  // Simuler un localStorage vide au départ
+  const getItemSpy = jest
+    .spyOn(Storage.prototype, "getItem")
+    .mockReturnValue(null);
+
+  const setItemSpy = jest.spyOn(Storage.prototype, "setItem");
+
   render(<App />);
 
   fireEvent.change(screen.getByLabelText(/Enter your Last name:/i), {
@@ -208,23 +215,25 @@ test("saves form data to localStorage on submit", () => {
     target: { value: "75001" },
   });
 
-  const localStorageSpy = jest.spyOn(Storage.prototype, "setItem");
-
   fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
-  expect(localStorageSpy).toHaveBeenCalledWith(
+  expect(setItemSpy).toHaveBeenCalledWith(
     "formData",
-    JSON.stringify({
-      lastname: "Dupont",
-      firstname: "Jean",
-      email: "test@example.com",
-      birthDate: "2000-01-01",
-      city: "Paris",
-      postalCode: "75001",
-    })
+    JSON.stringify([
+      {
+        lastname: "Dupont",
+        firstname: "Jean",
+        email: "test@example.com",
+        birthDate: "2000-01-01",
+        city: "Paris",
+        postalCode: "75001",
+      },
+    ])
   );
 
-  localStorageSpy.mockRestore();
+  // Nettoyage
+  getItemSpy.mockRestore();
+  setItemSpy.mockRestore();
 });
 
 test("renders success toaster", () => {

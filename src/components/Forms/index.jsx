@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./form.css";
-import JSConfetti from "js-confetti";
-import Toaster from "../Toaster";
+ import Toaster from "../Toaster";
 
 const SimpleForm = () => {
   let [birthDate, setBirthDate] = useState("");
@@ -146,11 +145,7 @@ const SimpleForm = () => {
     }
   };
 
-  const confetti = new JSConfetti();
-
-  function showConfetti() {
-    confetti.addConfetti();
-  }
+ 
 
   const showToaster = (message, type) => {
     setToaster({ message, type, visible: true });
@@ -169,6 +164,20 @@ const SimpleForm = () => {
         postalCode: document.getElementById("postalCode").value,
       };
 
+      // Ajout dans le localStorage (tableau d'utilisateurs)
+      let users = [];
+      try {
+        const existing = localStorage.getItem("formData");
+        if (existing) {
+          users = JSON.parse(existing);
+          if (!Array.isArray(users)) users = [];
+        }
+      } catch (e) {
+        users = [];
+      }
+      users.push(formData);
+      localStorage.setItem("formData", JSON.stringify(users));
+
       // Appel API pour ajouter l'utilisateur
       const response = await fetch("http://localhost:8000/login", {
         method: "POST",
@@ -177,7 +186,6 @@ const SimpleForm = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        showConfetti();
         showToaster("User added to database!", "success");
         setTimeout(() => {
           window.location.reload();
