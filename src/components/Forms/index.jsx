@@ -38,10 +38,20 @@ const SimpleForm = () => {
     cityError,
   ]);
 
+  const [users, setUsers] = useState([]);
   const [nbrUser, setNbrUser] = useState(0);
 
-  
-   
+  useEffect(() => {
+    // Récupérer la liste des utilisateurs
+    fetch("http://localhost:8000/users")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.utilisateur) {
+          setUsers(data.utilisateur);
+          setNbrUser(data.utilisateur.length);
+        }
+      });
+  }, []);
 
   const validateCity = async (event) => {
     const cityName = event.target.value.trim();
@@ -192,9 +202,15 @@ const SimpleForm = () => {
           onClose={() => setToaster({ ...toaster, visible: false })}
         />
       )}
+      <h2>Nombre d'utilisateurs : {nbrUser}</h2>
+      <ul>
+        {users.map((u, idx) => (
+          <li key={idx}>
+            {u[1]} {u[2]}
+          </li> 
+        ))}
+      </ul>
       <form data-testid="form" className="form" onSubmit={handleSubmit}>
-
-      <h2>Number of user {nbrUser} </h2>
         <div className="formGroup">
           <label htmlFor="Lastname" className="label">
             Enter your Last name:{" "}

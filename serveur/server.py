@@ -25,12 +25,7 @@ app.add_middleware(
 
 # Create a connexion to the database
 
-conn = mysql.connector.connect(
-    database=os.getenv("MYSQL_DATABASE"),
-    user=os.getenv("MYSQL_USER"),
-    password=os.getenv("MYSQL_ROOT_PASSWORD"),
-    port=3306,
-    host=os.getenv("MYSQL_HOST"))
+
 
 @app.get("/")
 async def hello_world():
@@ -38,6 +33,13 @@ async def hello_world():
 
 @app.get("/users")
 async def get_users():
+    conn = mysql.connector.connect(
+        database=os.getenv("MYSQL_DATABASE"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_ROOT_PASSWORD"),
+        port=3306,
+        host=os.getenv("MYSQL_HOST")
+    )
     cursor = conn.cursor()
     sql_select_Query = "SELECT * from users"
     cursor.execute(sql_select_Query)
@@ -50,6 +52,12 @@ async def get_users():
 
 @app.post("/login")
 async def create_user(login: Login):
+    conn = mysql.connector.connect(
+        database=os.getenv("MYSQL_DATABASE"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_ROOT_PASSWORD"),
+        port=3306,
+        host=os.getenv("MYSQL_HOST"))
     cursor = conn.cursor()
     try:
         sql_select_Query = """
