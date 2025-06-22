@@ -59,8 +59,20 @@ jobs:
         run: |
           docker compose --version
           docker compose up -d
-      - name: Run e2e tests with cypress
+
+      
+      - name: Install wait-on
+        run: npm install --save-dev wait-on
+
+      - name: Wait for React to be ready
+        run: npx wait-on http://localhost:3000
+
+      - name: Run e2e tests with Cypress
         uses: cypress-io/github-action@v6
+        with:
+          start: ''
+          wait-on: 'http://localhost:3000'
+
       - name: Stop the stack react
         run: docker compose down
       - name: Upload coverage reports to Codecov
