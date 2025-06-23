@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
 import Toaster from "./components/Toaster";
+import SimpleForm from "./components/Forms/index";
+
 
 /**
  * Test suite for the Form component.
@@ -252,4 +254,66 @@ test("renders error toaster", () => {
   expect(screen.getByText("Fermer")).toBeInTheDocument();
   fireEvent.click(screen.getByText("Fermer"));
   expect(onClose).toHaveBeenCalled();
+});
+
+
+// Teste la récupération des utilisateurs (mock fetch)
+test("fetches and displays users", async () => {
+  const fakeUsers = {
+    utilisateur: [
+      [1, "Jean", "Dupont"],
+      [2, "Marie", "Curie"],
+    ],
+  };
+
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(fakeUsers),
+    })
+  );
+
+  render(<SimpleForm />);
+  expect(await screen.findByText("Jean Dupont")).toBeInTheDocument();
+  expect(await screen.findByText("Marie Curie")).toBeInTheDocument();
+
+  global.fetch.mockRestore();
+});
+
+// Simule une erreur API pour le submit
+test("shows toaster on API error", async () => {
+  global.fetch = jest.fn((url) =>
+    Promise.resolve({
+      ok: url !== "http://localhost:8000/login",
+      json: () =>
+        Promise.resolve({
+          error: "Erreur API",
+        }),
+    })
+  );
+
+  render(<SimpleForm />);
+  fireEvent.change(screen.getByLabelText(/Enter your Last name:/i), {
+    target: { value: "Dupont" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your First name:/i), {
+    target: { value: "Jean" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your email:/i), {
+    target: { value: "test@example.com" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your date of birth:/i), {
+    target: { value: "2000-01-01" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your City:/i), {
+    target: { value: "Paris" },
+  });
+  fireEvent.change(screen.getByLabelText(/Enter your postal code:/i), {
+    target: { value: "75001" },
+  });
+
+  fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+
+  expect(await screen.findByText(/Erreur API/)).toBeInTheDocument();
+
+  global.fetch.mockRestore();
 });
