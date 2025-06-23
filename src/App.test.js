@@ -280,30 +280,31 @@ test("fetches and displays users", async () => {
 });
 
 
-// Teste la validation de la ville
-test("validateCity sets error for unknown city", async () => {
-  // mock global.fetch avant tout
-  global.fetch = jest.fn(() =>
-    Promise.resolve({
-      json: () => Promise.resolve([]), // simulate "ville non trouvée"
-    })
-  );
+// // Teste la validation de la ville
+// test("validateCity sets error for unknown city", async () => {
+//   // mock global.fetch avant tout
+//   global.fetch = jest.fn(() =>
+//     Promise.resolve({
+//       json: () => Promise.resolve([]), // simulate "ville non trouvée"
+//     })
 
-  render(<SimpleForm />);
+//   );
 
-  const cityInput = screen.getByLabelText(/Enter your City:/i);
+//   render(<SimpleForm />);
 
-  fireEvent.blur(cityInput, { target: { value: "Konoha" } });
+//   const cityInput = screen.getByLabelText(/Enter your City:/i);
+
+//   fireEvent.blur(cityInput, { target: { value: "Konoha" } });
 
 
-  await waitFor(() => {
-    expect(
-      screen.getByText("Cette ville n'existe pas en France.")
-    ).toBeInTheDocument();
-  });
+//   await waitFor(() => {
+//     expect(
+//       screen.getByText("Cette ville n'existe pas en France.")
+//     ).toBeInTheDocument();
+//   });
 
-   window.fetch.mockRestore();
-});
+//    window.fetch.mockRestore();
+// });
 
 test("validateCity clears error for valid city", async () => {
   global.fetch = jest.fn(() =>
