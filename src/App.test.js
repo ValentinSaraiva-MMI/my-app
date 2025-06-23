@@ -16,7 +16,7 @@ describe("Form", () => {
     const form = screen.getByTestId("form"); // get the form
     expect(form).toBeInTheDocument(); // check if form is in the document
   });
-});
+
 
 /**
  * Test to validate that users under 18 years old are blocked in the date input.
@@ -281,17 +281,27 @@ test("fetches and displays users", async () => {
 
 // Simule une erreur API pour le submit
 test("shows toaster on API error", async () => {
-  global.fetch = jest.fn((url) =>
-    Promise.resolve({
-      ok: url !== "http://localhost:8000/login",
-      json: () =>
-        Promise.resolve({
-          error: "Erreur API",
-        }),
-    })
-  );
+  const fetchMock = jest.fn((url) => {
+    if (url.includes("/users")) {
+      return Promise.resolve({
+        json: () => Promise.resolve({ utilisateur: [] }),
+      });
+    }
+
+    if (url.includes("/login")) {
+      return Promise.resolve({
+        ok: false,
+        json: () => Promise.resolve({ error: "Erreur API" }),
+      });
+    }
+
+    return Promise.reject(new Error("Unhandled fetch URL: " + url));
+  });
+
+  global.fetch = fetchMock;
 
   render(<SimpleForm />);
+
   fireEvent.change(screen.getByLabelText(/Enter your Last name:/i), {
     target: { value: "Dupont" },
   });
@@ -316,4 +326,5 @@ test("shows toaster on API error", async () => {
   expect(await screen.findByText(/Erreur API/)).toBeInTheDocument();
 
   global.fetch.mockRestore();
+});
 });
