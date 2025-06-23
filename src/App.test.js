@@ -279,53 +279,34 @@ test("fetches and displays users", async () => {
   global.fetch.mockRestore();
 });
 
-// Simule une erreur API pour le submit
-// test("shows toaster on API error", async () => {
-//   const fetchMock = jest.fn((url) => {
-//     if (url.includes("/users")) {
-//       return Promise.resolve({
-//         ok: true,
-//         json: () => Promise.resolve({ utilisateur: [] }),
-//       });
-//     }
-//     if (url.includes("/login")) {
-//       return Promise.resolve({
-//         ok: false,
-//         json: () => Promise.resolve({ error: "Erreur API" }),
-//       });
-//     }
-//     return Promise.reject(new Error("Unhandled fetch URL: " + url));
-//   });
 
-//   global.fetch = fetchMock;
+// Teste la validation de la ville
+test("validateCity sets error for unknown city", async () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([]),
+    })
+  );
+  render(<SimpleForm />);
+  const cityInput = screen.getByLabelText(/Enter your City:/i);
+  fireEvent.blur(cityInput, { target: { value: "Mordor" } });
+  expect(await screen.findByText("Cette ville n'existe pas en France.")).toBeInTheDocument();
+  global.fetch.mockRestore();
+});
 
-//   render(<SimpleForm />);
+test("validateCity clears error for valid city", async () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([{ nom: "Paris" }]),
+    })
+  );
+  render(<SimpleForm />);
+  const cityInput = screen.getByLabelText(/Enter your City:/i);
+  fireEvent.blur(cityInput, { target: { value: "Paris" } });
+  await screen.findByLabelText(/Enter your City:/i); // wait for update
+  expect(screen.queryByText("Cette ville n'existe pas en France.")).not.toBeInTheDocument();
+  expect(screen.queryByText("Veuillez entrer une ville valide.")).not.toBeInTheDocument();
+  global.fetch.mockRestore();
+});
 
-//   fireEvent.change(screen.getByLabelText(/Enter your Last name:/i), {
-//     target: { value: "Dupont" },
-//   });
-//   fireEvent.change(screen.getByLabelText(/Enter your First name:/i), {
-//     target: { value: "Jean" },
-//   });
-//   fireEvent.change(screen.getByLabelText(/Enter your email:/i), {
-//     target: { value: "test@example.com" },
-//   });
-//   fireEvent.change(screen.getByLabelText(/Enter your date of birth:/i), {
-//     target: { value: "2000-01-01" },
-//   });
-//   fireEvent.change(screen.getByLabelText(/Enter your City:/i), {
-//     target: { value: "Paris" },
-//   });
-//   fireEvent.change(screen.getByLabelText(/Enter your postal code:/i), {
-//     target: { value: "75001" },
-//   });
-
-//   fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-//   // Vérifie que le toaster affiche bien l'erreur API
-//   expect(await screen.findByText(/Erreur API/)).toBeInTheDocument();
-
-//   // Nettoyage du mock
-//   global.fetch = undefined;
-// });
 });
