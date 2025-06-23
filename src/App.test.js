@@ -282,9 +282,10 @@ test("fetches and displays users", async () => {
 
 // Teste la validation de la ville
 test("validateCity sets error for unknown city", async () => {
-   jest.spyOn(window, "fetch").mockImplementationOnce(() =>
+  // mock global.fetch avant tout
+  global.fetch = jest.fn(() =>
     Promise.resolve({
-      json: () => Promise.resolve([""]),
+      json: () => Promise.resolve([]), // simulate "ville non trouvée"
     })
   );
 
@@ -294,7 +295,7 @@ test("validateCity sets error for unknown city", async () => {
 
   fireEvent.blur(cityInput, { target: { value: "Konoha" } });
 
-  
+
   await waitFor(() => {
     expect(
       screen.getByText("Cette ville n'existe pas en France.")
