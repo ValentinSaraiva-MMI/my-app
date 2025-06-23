@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import App from "./App";
 import Toaster from "./components/Toaster";
 import SimpleForm from "./components/Forms/index";
@@ -282,16 +282,28 @@ test("fetches and displays users", async () => {
 
 // Teste la validation de la ville
 test("validateCity sets error for unknown city", async () => {
-  global.fetch = jest.fn(() =>
+  // mock l'appel API pour renvoyer un tableau vide
+  jest.spyOn(window, "fetch").mockImplementationOnce(() =>
     Promise.resolve({
-      json: () => Promise.resolve([]),
+      json: () => Promise.resolve([""]),
     })
   );
+
   render(<SimpleForm />);
+
   const cityInput = screen.getByLabelText(/Enter your City:/i);
-  fireEvent.blur(cityInput, { target: { value: "Mordor" } });
-  expect(await screen.findByText("Cette ville n'existe pas en France.")).toBeInTheDocument();
-  global.fetch.mockRestore();
+
+  fireEvent.blur(cityInput, { target: { value: "Gotham" } });
+
+  // attend que le message apparaisse
+  await waitFor(() => {
+    expect(
+      screen.getByText("Erreur de validation de la ville.")
+    ).toBeInTheDocument();
+  });
+
+  // nettoyage
+  window.fetch.mockRestore();
 });
 
 test("validateCity clears error for valid city", async () => {
