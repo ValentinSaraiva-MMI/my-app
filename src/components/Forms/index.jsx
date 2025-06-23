@@ -72,7 +72,7 @@ const SimpleForm = () => {
         setCityError("");
       }
     } catch (error) {
-      setCityError("Erreur de validation de la ville.");
+      setCityError("Cette ville n'existe pas en France.");
     }
   };
 

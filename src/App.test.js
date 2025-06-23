@@ -282,8 +282,7 @@ test("fetches and displays users", async () => {
 
 // Teste la validation de la ville
 test("validateCity sets error for unknown city", async () => {
-  // mock l'appel API pour renvoyer un tableau vide
-  jest.spyOn(window, "fetch").mockImplementationOnce(() =>
+   jest.spyOn(window, "fetch").mockImplementationOnce(() =>
     Promise.resolve({
       json: () => Promise.resolve([""]),
     })
@@ -293,17 +292,16 @@ test("validateCity sets error for unknown city", async () => {
 
   const cityInput = screen.getByLabelText(/Enter your City:/i);
 
-  fireEvent.blur(cityInput, { target: { value: "Gotham" } });
+  fireEvent.blur(cityInput, { target: { value: "Konoha" } });
 
-  // attend que le message apparaisse
+  
   await waitFor(() => {
     expect(
-      screen.getByText("Erreur de validation de la ville.")
+      screen.getByText("Cette ville n'existe pas en France.")
     ).toBeInTheDocument();
   });
 
-  // nettoyage
-  window.fetch.mockRestore();
+   window.fetch.mockRestore();
 });
 
 test("validateCity clears error for valid city", async () => {
