@@ -284,17 +284,16 @@ test("shows toaster on API error", async () => {
   const fetchMock = jest.fn((url) => {
     if (url.includes("/users")) {
       return Promise.resolve({
+        ok: true,
         json: () => Promise.resolve({ utilisateur: [] }),
       });
     }
-
     if (url.includes("/login")) {
       return Promise.resolve({
         ok: false,
         json: () => Promise.resolve({ error: "Erreur API" }),
       });
     }
-
     return Promise.reject(new Error("Unhandled fetch URL: " + url));
   });
 
@@ -323,8 +322,10 @@ test("shows toaster on API error", async () => {
 
   fireEvent.click(screen.getByRole("button", { name: /Save/i }));
 
+  // Vérifie que le toaster affiche bien l'erreur API
   expect(await screen.findByText(/Erreur API/)).toBeInTheDocument();
 
-  global.fetch.mockRestore();
+  // Nettoyage du mock
+  global.fetch = undefined;
 });
 });
